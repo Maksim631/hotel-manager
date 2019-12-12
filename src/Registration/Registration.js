@@ -14,7 +14,8 @@ class Registration extends React.Component {
             password: '',
             confirmPassword: '',
             isEmpty: false,
-            isDifferent: false
+            isDifferent: false,
+            onRegister: props.onRegister
         }
 
         this.register = this.register.bind(this);
@@ -36,6 +37,7 @@ class Registration extends React.Component {
         event.preventDefault();
         if (!this.state.isEmpty && !this.state.isDifferent) {
             // const response = await axios.post(url, this.state);
+            this.state.onRegister();
         }
         // TODO handle response
     }

@@ -11,7 +11,8 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
-            show: false
+            show: false,
+            onLogin: props.onLogin
         }
 
         this.login = this.login.bind(this);
@@ -29,6 +30,7 @@ class Login extends React.Component {
         event.preventDefault();
         if (!this.state.show) {
             // const response = await axios.post(url, this.state);
+            this.state.onLogin();
         }
         // TODO handle response
     }

@@ -1,0 +1,13 @@
+.Card {
+    color: #282c34;
+}
+
+.Card .Card-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.Card-book-button {
+    margin: 0 1em 0 1em;
+}
