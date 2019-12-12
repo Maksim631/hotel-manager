@@ -2,32 +2,39 @@ import React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
-import './Login.css';
+import './Registration.css';
+import axios from 'axios';
 const url = require('../config.json').url;
 
-class Login extends React.Component {
+class Registration extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             email: '',
             password: '',
-            show: false
+            confirmPassword: '',
+            isEmpty: false,
+            isDifferent: false
         }
 
-        this.login = this.login.bind(this);
+        this.register = this.register.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
 
-    async login(event) {
-        
-        if (!this.state.email || !this.state.password) {
+    async register(event) {
+        if (!this.state.email || !this.state.password || !this.state.confirmPassword) {
             this.setState({
-                show: true
+                isEmpty: true
+            });
+        }
+        if (this.state.password !== this.state.confirmPassword) {
+            this.setState({
+                isDifferent: true
             });
         }
         event.preventDefault();
-        if (!this.state.show) {
+        if (!this.state.isEmpty && !this.state.isDifferent) {
             // const response = await axios.post(url, this.state);
         }
         // TODO handle response
@@ -39,14 +46,14 @@ class Login extends React.Component {
         const value = target.value;
         this.setState({
             [name]: value,
-            show: false
+            isEmpty: false
         });
     }
 
     render() {
         return (
-            <div class="login">
-                <Form onSubmit={this.login}>
+            <div class="registration">
+                <Form onSubmit={this.register}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control
@@ -56,6 +63,9 @@ class Login extends React.Component {
                             value={this.state.email}
                             onChange={this.handleChange}
                         />
+                        <Form.Text className="text-muted">
+                            We'll never share your email with anyone else.
+                        </Form.Text>
                     </Form.Group>
 
                     <Form.Group controlId="formBasicPassword">
@@ -68,13 +78,26 @@ class Login extends React.Component {
                             onChange={this.handleChange}
                         />
                     </Form.Group>
+                    <Form.Group controlId="formBasicPassword">
+                        <Form.Label>Confirm password</Form.Label>
+                        <Form.Control
+                            type="password"
+                            name="confirmPassword"
+                            placeholder="Confirm password"
+                            value={this.state.confirmPassword}
+                            onChange={this.handleChange}
+                        />
+                    </Form.Group>
                     <Button variant="primary" type="submit">
                         Log In
                     </Button>
                 </Form>
                 <div class="alert-container">
-                    <Alert show={this.state.show} variant="danger">
+                    <Alert show={this.state.isEmpty} variant="danger">
                         Please enter all necessary data 
+                    </Alert>
+                    <Alert show={this.state.isDifferent} variant="danger">
+                        Passwords are not the same 
                     </Alert>
                 </div>
             </div>
@@ -82,4 +105,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default Registration;
