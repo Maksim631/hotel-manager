@@ -1,5 +1,8 @@
 .Card {
     color: #282c34;
+    display: flex;
+    flex-direction: row;
+    margin: 1em;
 }
 
 .Card .Card-row {
@@ -8,6 +11,15 @@
     justify-content: space-between;
 }
 
+.Card-button-container {
+    display: flex;
+    flex-direction: column-reverse;
+}
 .Card-book-button {
     margin: 0 1em 0 1em;
+}
+
+.Card-img {
+    width: 25%;
+    min-width: 5em;
 }
