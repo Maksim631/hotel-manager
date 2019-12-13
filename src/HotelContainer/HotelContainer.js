@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import {DateRangePicker} from 'react-dates';
+import 'react-dates/lib/css/_datepicker.css';
+
 import Hotel from '../Hotel/Hotel';
 
 class HotelContainer extends React.Component {
@@ -8,12 +11,15 @@ class HotelContainer extends React.Component {
         this.state = {
             isLogin: props.isLogin,
             rooms: [],
-            renderedRooms: ''
+            renderedRooms: '',
+            startDate: null,
+            endDate: null,
+            focusedInput: null
         }
 
         this.initHotelRooms = this.initHotelRooms.bind(this);
 
-        
+
     }
 
     componentDidMount() {
@@ -42,7 +48,7 @@ class HotelContainer extends React.Component {
             }
 
         ];
-        const renderedRooms = rooms.map(room => 
+        const renderedRooms = rooms.map(room =>
             <Hotel
                 key={room.name}
                 isLogin={this.state.isLogin}
@@ -66,8 +72,21 @@ class HotelContainer extends React.Component {
 
     render() {
         return (
-            <div className="Container-grid">
-                {this.state.renderedRooms}
+            <div>
+                <div className="Date-pickers">
+                    <DateRangePicker
+                        startDate={this.state.startDate} 
+                        startDateId="startDateId" 
+                        endDate={this.state.endDate} 
+                        endDateId="endDateId" 
+                        onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} 
+                        focusedInput={this.state.focusedInput} 
+                        onFocusChange={focusedInput => this.setState({ focusedInput })} 
+                    />
+                </div>
+                <div className="Container-grid">
+                    {this.state.renderedRooms}
+                </div>
             </div>
         );
     }
