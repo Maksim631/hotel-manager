@@ -47,7 +47,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <div class="login">
+            <div className="login">
                 <Form onSubmit={this.login}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
@@ -74,7 +74,7 @@ class Login extends React.Component {
                         Log In
                     </Button>
                 </Form>
-                <div class="alert-container">
+                <div className="alert-container">
                     <Alert show={this.state.show} variant="danger">
                         Please enter all necessary data 
                     </Alert>

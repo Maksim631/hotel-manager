@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import './Registration.css';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 const url = require('../config.json').url;
 
 class Registration extends React.Component {
@@ -54,7 +55,7 @@ class Registration extends React.Component {
 
     render() {
         return (
-            <div class="registration">
+            <div className="registration">
                 <Form onSubmit={this.register}>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
@@ -74,6 +75,7 @@ class Registration extends React.Component {
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
+                            id="password"
                             name="password"
                             placeholder="Password"
                             value={this.state.password}
@@ -85,6 +87,7 @@ class Registration extends React.Component {
                         <Form.Control
                             type="password"
                             name="confirmPassword"
+                            id="confirmPassword"
                             placeholder="Confirm password"
                             value={this.state.confirmPassword}
                             onChange={this.handleChange}
@@ -94,7 +97,7 @@ class Registration extends React.Component {
                         Log In
                     </Button>
                 </Form>
-                <div class="alert-container">
+                <div className="alert-container">
                     <Alert show={this.state.isEmpty} variant="danger">
                         Please enter all necessary data 
                     </Alert>
@@ -107,4 +110,4 @@ class Registration extends React.Component {
     }
 }
 
-export default Registration;
+export default withRouter(Registration);

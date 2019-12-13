@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {DateRangePicker} from 'react-dates';
 import 'react-dates/lib/css/_datepicker.css';
-
+import './HotelContainer.css';
 import Hotel from '../Hotel/Hotel';
 
 class HotelContainer extends React.Component {
@@ -72,7 +72,7 @@ class HotelContainer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="HotelContainer">
                 <div className="Date-pickers">
                     <DateRangePicker
                         startDate={this.state.startDate} 
