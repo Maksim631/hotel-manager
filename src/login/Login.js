@@ -3,7 +3,9 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import './Login.css';
+import axios from 'axios';
 const url = require('../config.json').url;
+
 
 class Login extends React.Component {
     constructor(props) {
@@ -29,7 +31,11 @@ class Login extends React.Component {
         }
         event.preventDefault();
         if (!this.state.show) {
-            // const response = await axios.post(url, this.state);
+            const response = await axios.post(`${url}/login`, {
+                email: this.state.email,
+                password: this.state.password
+            });
+            console.log(response);
             this.state.onLogin();
         }
         // TODO handle response

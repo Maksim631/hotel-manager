@@ -1,0 +1,4 @@
+{
+    "dbUrl": "mongodb://localhost/hotel-manager",
+    "secret": "super-hotel"
+}

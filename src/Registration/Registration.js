@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import './Registration.css';
 import axios from 'axios';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 const url = require('../config.json').url;
 
 class Registration extends React.Component {
@@ -16,6 +16,7 @@ class Registration extends React.Component {
             confirmPassword: '',
             isEmpty: false,
             isDifferent: false,
+            isError: false,
             onRegister: props.onRegister
         }
 
@@ -37,10 +38,20 @@ class Registration extends React.Component {
         }
         event.preventDefault();
         if (!this.state.isEmpty && !this.state.isDifferent) {
-            // const response = await axios.post(url, this.state);
-            this.state.onRegister();
+
+            const response = await axios.post(`${url}/registration`, {
+                email: this.state.email,
+                password: this.state.password
+            });
+            console.log(response)
+            if (response.data.error) {
+                this.setState({isError: true});
+                console.error(response.data.error);
+            } else {
+                this.setState({isError: false});
+                this.props.history.push('/');
+            }
         }
-        // TODO handle response
     }
 
     handleChange(event) {
@@ -75,34 +86,35 @@ class Registration extends React.Component {
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                             type="password"
-                            id="password"
                             name="password"
                             placeholder="Password"
                             value={this.state.password}
                             onChange={this.handleChange}
                         />
                     </Form.Group>
-                    <Form.Group controlId="formBasicPassword">
+                    <Form.Group controlId="formConfirmedPassword">
                         <Form.Label>Confirm password</Form.Label>
                         <Form.Control
                             type="password"
                             name="confirmPassword"
-                            id="confirmPassword"
                             placeholder="Confirm password"
                             value={this.state.confirmPassword}
                             onChange={this.handleChange}
                         />
                     </Form.Group>
                     <Button variant="primary" type="submit">
-                        Log In
+                        Registrate
                     </Button>
                 </Form>
                 <div className="alert-container">
                     <Alert show={this.state.isEmpty} variant="danger">
-                        Please enter all necessary data 
+                        Please enter all necessary data
                     </Alert>
                     <Alert show={this.state.isDifferent} variant="danger">
-                        Passwords are not the same 
+                        Passwords are not the same
+                    </Alert>
+                    <Alert show={this.state.isError} variant="danger">
+                        There is already user with such email!
                     </Alert>
                 </div>
             </div>
