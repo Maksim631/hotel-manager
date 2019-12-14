@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import Alert from 'react-bootstrap/Alert';
 import './Login.css';
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 const url = require('../config.json').url;
 
 
@@ -14,6 +15,7 @@ class Login extends React.Component {
             email: '',
             password: '',
             show: false,
+            isError: false,
             onLogin: props.onLogin
         }
 
@@ -35,10 +37,17 @@ class Login extends React.Component {
                 email: this.state.email,
                 password: this.state.password
             });
-            console.log(response);
-            this.state.onLogin();
+            if (response.data.error) {
+                this.setState({
+                    isError: true
+                });
+            } else {
+                document.cookie = `token=${response.data.token}`;
+                this.state.onLogin();
+                this.props.history.push('/');
+            }
+            
         }
-        // TODO handle response
     }
 
     handleChange(event) {
@@ -84,10 +93,13 @@ class Login extends React.Component {
                     <Alert show={this.state.show} variant="danger">
                         Please enter all necessary data 
                     </Alert>
+                    <Alert show={this.state.isError} variant="danger">
+                        Wrong email or password
+                    </Alert>
                 </div>
             </div>
         )
     }
 }
 
-export default Login;
+export default withRouter(Login);

@@ -12,6 +12,14 @@ class Header extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.isLogin !== prevProps.isLogin) {
+          this.setState({
+            isLogin: this.props.isLogin
+          });
+        }
+      }
+
     renderButton() {
         if (this.state.isLogin) {
             return (
