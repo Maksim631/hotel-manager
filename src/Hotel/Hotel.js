@@ -28,7 +28,7 @@ class Hotel extends React.Component {
     render() {
         return (
             <Card className="Card">
-                <Card.Img variant="top" className="Card-img" src={'data:image/png;base64,' + this.state.img} />
+                <Card.Img variant="top" className="Card-img" src={this.state.img} />
                 <Card.Body>
                     <Card.Title>{this.state.name}</Card.Title>
                     <Card.Text>
