@@ -41,7 +41,7 @@ class App extends React.Component {
                 </Registration>
               </Route>
               <Route path="/">
-                <HotelContainer isLogin={true}></HotelContainer>
+                <HotelContainer isLogin={this.state.isLogin}></HotelContainer>
               </Route>
             </Switch>
 

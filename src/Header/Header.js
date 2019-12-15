@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import './Header.css';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Header extends React.Component {
     constructor(props) {
@@ -14,11 +14,11 @@ class Header extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.isLogin !== prevProps.isLogin) {
-          this.setState({
-            isLogin: this.props.isLogin
-          });
+            this.setState({
+                isLogin: this.props.isLogin
+            });
         }
-      }
+    }
 
     renderButton() {
         if (this.state.isLogin) {
@@ -39,7 +39,7 @@ class Header extends React.Component {
                     <Button
                         variant="primary"
                         className="Header-button"
-                        onClick={()=> this.props.history.push('/login')}
+                        onClick={() => this.props.history.push('/login')}
                     >
                         <span>
                             Log in
@@ -63,8 +63,8 @@ class Header extends React.Component {
     render() {
         return (
             <div className="Header">
-                <img className="Header-img" src="logo192.png" 
-                    onClick={() => this.props.history.push('/')}/>
+                <img className="Header-img" src="logo192.png"
+                    onClick={() => this.props.history.push('/')} />
 
                 {this.renderButton()}
 

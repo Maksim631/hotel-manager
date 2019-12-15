@@ -1,4 +1,4 @@
-import { MongoClient, Db } from "mongodb";
+import { MongoClient, Db, ObjectId } from "mongodb";
 import { UserModel } from './db.model';
 import { cryptPassword, comparePassword } from '../commons/encode';
 
@@ -8,6 +8,8 @@ const mongoOptions = {
 
 const url = require('../../config.json').dbUrl;
 const usersCollection = 'users';
+const hotelsCollection = 'hotels';
+const bookCollection = 'bookings';
 
 let db: Db;
 let connection: MongoClient;
@@ -52,3 +54,58 @@ export async function findByNameAndPassword(email: string, password: string) {
     }
 }
 
+export async function findHotels() {
+    console.log('Try to get all hotels');
+    const hotels = db.collection(hotelsCollection).find();
+    return await hotels.toArray();
+}
+
+export async function bookHotelByDates(startDate: Date, endDate: Date, hotelId: string) {
+    return await db.collection(bookCollection).insertOne({
+        hotelId: hotelId,
+        startDate: startDate,
+        endDate: endDate
+    });
+}
+
+export async function findHotelsByDates(startDate: string, endDate: string) {
+    const hotelIds: string[] = [];
+    const hotels = (await db.collection(hotelsCollection).find().toArray());
+    for (let hotel of hotels) {
+        const bookings = (await db.collection(bookCollection).find({
+            hotelId: `${hotel._id}`
+        }).toArray());
+        if (bookings.length === 0) {
+            console.log('empty');
+            hotelIds.push(hotel._id);
+        } else {
+            const isFree = bookings.every(booking => {
+                const bookStartDate = new Date(booking.startDate);
+                const bookEndDate = new Date(booking.endDate);
+
+                const startDateMs = new Date(startDate).valueOf();
+                const endDateMs = new Date(endDate).valueOf();
+
+                const bookStartDateMs = bookStartDate.valueOf();
+                const bookEndDateMs = bookEndDate.valueOf();
+                if (startDateMs < bookStartDateMs && endDateMs < bookEndDateMs) {
+                    return true;
+                } else {
+                    if (startDateMs > bookEndDateMs) {
+                        return true;
+                    }
+                }
+                return false;
+            });
+            if (isFree) {
+                hotelIds.push(hotel._id);
+            }
+        }
+    }
+    
+    return (await db.collection(hotelsCollection).find({
+        _id: {
+            $in: hotelIds
+        } 
+    }).toArray());
+}

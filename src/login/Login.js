@@ -5,7 +5,7 @@ import Alert from 'react-bootstrap/Alert';
 import './Login.css';
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
-const url = require('../config.json').url;
+const {url} = require('../config.json');
 
 
 class Login extends React.Component {

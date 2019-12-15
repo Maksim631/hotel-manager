@@ -7,12 +7,21 @@ class Hotel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            _id: props._id,
             img: props.img,
             name: props.name,
             cost: props.cost,
             description: props.description,
             onBook: props.onBook,
             isLogin: props.isLogin
+        }
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.isLogin !== prevProps.isLogin) {
+            this.setState({
+                isLogin: this.props.isLogin
+            });
         }
     }
 
@@ -29,11 +38,14 @@ class Hotel extends React.Component {
                         Cost: {this.state.cost}
                     </Card.Text>
                 </Card.Body>
-                
+
                 <Card.Body className="Card-button-container">
                     <Button
                         variant="primary"
-                        onClick={this.state.onBook}
+                        onClick={() => {
+                            console.log(this.state._id)
+                            this.state.onBook(this.state._id)
+                        }}
                         disabled={!this.state.isLogin}
                     >
                         <span className="Card-book-button">Book</span>
