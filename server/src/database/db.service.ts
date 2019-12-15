@@ -62,7 +62,7 @@ export async function findHotels() {
 
 export async function bookHotelByDates(startDate: Date, endDate: Date, hotelId: string) {
     return await db.collection(bookCollection).insertOne({
-        hotelId: hotelId,
+        hotelId: `${hotelId}`,
         startDate: startDate,
         endDate: endDate
     });
@@ -73,11 +73,11 @@ export async function findHotelsByDates(startDate: string, endDate: string) {
     const hotels = (await db.collection(hotelsCollection).find().toArray());
     for (let hotel of hotels) {
         const bookings = (await db.collection(bookCollection).find({
-            hotelId: `${hotel._id}`
+            hotelId: `${hotel.id}`
         }).toArray());
         if (bookings.length === 0) {
             console.log('empty');
-            hotelIds.push(hotel._id);
+            hotelIds.push(hotel.id);
         } else {
             const isFree = bookings.every(booking => {
                 const bookStartDate = new Date(booking.startDate);
@@ -98,13 +98,13 @@ export async function findHotelsByDates(startDate: string, endDate: string) {
                 return false;
             });
             if (isFree) {
-                hotelIds.push(hotel._id);
+                hotelIds.push(hotel.id);
             }
         }
     }
     
     return (await db.collection(hotelsCollection).find({
-        _id: {
+        id: {
             $in: hotelIds
         } 
     }).toArray());
